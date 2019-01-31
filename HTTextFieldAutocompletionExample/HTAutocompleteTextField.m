@@ -179,17 +179,18 @@ static NSObject<HTAutocompleteDataSource> *DefaultAutocompleteDataSource = nil;
                                                           lineBreakMode:lineBreakMode];
 #endif
     
-    float correction = 0.0f;
-    if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1)
-    {
-        // there is a slightly different return value for firstRectForRange in iOS7
-        correction = 6;
+    if (self.textAlignment == NSTextAlignmentCenter) {
+        returnRect = CGRectMake(textRect.origin.x + ((textRect.size.width + prefixTextSize.width) / 2) +  + self.autocompleteTextOffset.x,
+                                textRect.origin.y + self.autocompleteTextOffset.y,
+                                autocompleteTextSize.width,
+                                textRect.size.height);
+    } else {
+        returnRect = CGRectMake(textRect.origin.x + prefixTextSize.width +  + self.autocompleteTextOffset.x,
+                                textRect.origin.y + self.autocompleteTextOffset.y,
+                                autocompleteTextSize.width,
+                                textRect.size.height);
     }
     
-    returnRect = CGRectMake(CGRectGetMaxX(textRect) + correction + self.autocompleteTextOffset.x,
-                            CGRectGetMinY(textRectBounds) + self.autocompleteTextOffset.y,
-                            autocompleteTextSize.width,
-                            textRectBounds.size.height);
     
     return returnRect;
 }
